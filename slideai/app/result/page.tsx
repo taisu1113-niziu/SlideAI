@@ -110,6 +110,28 @@ export default function ResultPage() {
     }
   }
 
+  function handleAddImage(file: File) {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const updatedSlides = [...slides];
+
+      updatedSlides[currentSlide].elements.push({
+        id: crypto.randomUUID(),
+        type: "image",
+        src: reader.result as string,
+        x: 350,
+        y: 180,
+        width: 250,
+        height: 180,
+      });
+
+      setSlides(updatedSlides);
+    };
+
+    reader.readAsDataURL(file);
+  }
+
   return (
     <main className="h-screen flex flex-col bg-slate-100">
       <Header />
@@ -131,7 +153,9 @@ export default function ResultPage() {
           onBulletChange={handleBulletChange}
         />
 
-        <RightPanel />
+        <RightPanel
+          onAddImage={handleAddImage}
+        />
       </div>
     </main>
   );

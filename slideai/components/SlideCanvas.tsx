@@ -23,8 +23,10 @@ export default function SlideCanvas({
 
   return (
     <section className="flex-1 flex justify-center items-center overflow-auto p-6">
-      <div className="bg-white rounded-xl shadow-2xl aspect-video w-full max-w-5xl p-10">
-
+      <div
+        className="relative bg-white rounded-xl shadow-2xl aspect-video w-full max-w-5xl p-10 overflow-hidden"
+      >
+        {/* タイトル */}
         <input
           type="text"
           value={slide.title}
@@ -32,6 +34,7 @@ export default function SlideCanvas({
           className="w-full text-4xl font-bold mb-10 outline-none border-b-2 border-transparent focus:border-blue-500 transition"
         />
 
+        {/* 箇条書き */}
         <div className="space-y-4">
           {slide.bullets.map((bullet, index) => (
             <input
@@ -46,6 +49,23 @@ export default function SlideCanvas({
           ))}
         </div>
 
+        {/* 画像 */}
+        {slide.elements
+          .filter((element) => element.type === "image")
+          .map((element) => (
+            <img
+              key={element.id}
+              src={element.src}
+              alt=""
+              className="absolute rounded-lg shadow-lg object-cover"
+              style={{
+                left: element.x,
+                top: element.y,
+                width: element.width,
+                height: element.height,
+              }}
+            />
+          ))}
       </div>
     </section>
   );
